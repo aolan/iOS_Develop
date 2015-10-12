@@ -15,8 +15,6 @@
 
 
 
-***
-
 #第三方代码
 
 
@@ -65,5 +63,4 @@
 * [iCarousel](https://github.com/nicklockwood/iCarousel) 横向滚动的table
 
 
-***
 
