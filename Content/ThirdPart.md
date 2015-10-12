@@ -1,7 +1,6 @@
 #工具
 
 ***
-
 ##[Alcatraz](http://alcatraz.io) xcode插件管理工具
 
 
@@ -19,8 +18,8 @@
 
 #第三方代码
 
-***
 
+***
 ##[CocoaPods](https://cocoapods.org) 代码包管理工具
 
 * [Bugtags](https://bugtags.com) 辅助测试
@@ -45,7 +44,7 @@
 
 * [UIAlert+Blocks](https://github.com/ryanmaxwell/UIAlertView-Blocks) UIAlertView Block
 
-* [BlocksKit](https://github.com/zwaldowski/BlocksKit) 多种空间的block使用
+* [BlocksKit](https://github.com/zwaldowski/BlocksKit) 多种控件的block使用
 
 * [UMengAnalytics](https://cocoapods.org/pods/UMengAnalytics) 友盟统计
 
@@ -64,10 +63,5 @@
 * [UIImage+BlurredFrame](https://github.com/Adrian2112/UIImage-BlurredFrame) 图片模糊效果
 
 * [iCarousel](https://github.com/nicklockwood/iCarousel) 横向滚动的table
-
-
-
-
-
 ***
 
