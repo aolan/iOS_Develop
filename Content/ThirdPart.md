@@ -62,5 +62,7 @@
 
 * [iCarousel](https://github.com/nicklockwood/iCarousel) 横向滚动的table
 
+* [MJExtension](https://github.com/CoderMJLee/MJExtension) Json类型与model相互转换
+
 
 
