@@ -8,4 +8,5 @@ This is the summary of this document.
 * [IDFA](Content/IDFA.md)
 * [非常好用的开发工具和第三方框架](Content/ThirdPart.md) 
 * [如何发布app](Content/SubmitApp.md)
+* [setNeedsLayout和setNeedsDisplay](Content/Show.md)
 
