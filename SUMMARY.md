@@ -11,4 +11,6 @@ This is the summary of this document.
 * [setNeedsLayout和setNeedsDisplay](Content/Show.md)
 * [将公用组件打包成私有pods](Content/Cocopods.md)
 * [swift中?和!的用法](Content/swift01.md)
+* [swift中lazy延迟加载](Content/swift02.md)
+
 
