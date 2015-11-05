@@ -66,5 +66,7 @@
 
 * [Aspects](https://github.com/steipete/Aspects) runtime快捷方法，可以在动态添加、替换方法
 
+* [CryptoSwift](https://github.com/krzyzanowskim/CryptoSwift) Swift各种加密
+
 
 
