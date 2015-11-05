@@ -68,5 +68,6 @@
 
 * [CryptoSwift](https://github.com/krzyzanowskim/CryptoSwift) Swift各种加密
 
+* [SnapKit](https://github.com/SnapKit/SnapKit) Swift第三方，相当于OC中的Masonry
 
 
