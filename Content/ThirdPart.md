@@ -70,4 +70,6 @@
 
 * [SnapKit](https://github.com/SnapKit/SnapKit) Swift第三方，相当于OC中的Masonry
 
+* [FDFullscreenPopGesture](https://github.com/forkingdog/FDFullscreenPopGesture.git) 滑动返回 
+
 
