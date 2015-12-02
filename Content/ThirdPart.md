@@ -72,4 +72,6 @@
 
 * [FDFullscreenPopGesture](https://github.com/forkingdog/FDFullscreenPopGesture.git) 滑动返回 
 
+* [YYKit](https://github.com/ibireme/YYText.git) 郭曜源开源的框架
+
 
