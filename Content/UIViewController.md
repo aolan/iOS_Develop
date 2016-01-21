@@ -1,0 +1,5 @@
+#UIViewController若干设置
+
+##edgesForExtendedLayout
+
+IOS7之后，系统默认设置UIViewController对象的默认属性为UIRectEdge.All，这会使得self.view其实位置在导航栏里面，如果不想出现这种情况，将该属性设置为UIRectEdge.None即可。
