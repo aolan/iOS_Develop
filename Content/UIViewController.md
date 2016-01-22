@@ -2,4 +2,8 @@
 
 ##edgesForExtendedLayout
 
-IOS7之后，系统默认设置UIViewController对象的默认属性为UIRectEdge.All，这会使得self.view其实位置在导航栏里面，如果不想出现这种情况，将该属性设置为UIRectEdge.None即可。
+IOS7之后，系统默认设置UIViewController对象的默认属性为UIRectEdge.All，这会使得self.view起始位置在导航栏里面，如果不想出现这种情况，将该属性设置为UIRectEdge.None即可。
+
+##automaticallyAdjustsScrollViewInsets
+
+IOS7之后，系统默认automaticallyAdjustsScrollViewInsets为true。当UIViewController里面有scrollview，并且该字段为true时，scrollview的contentInset和contentOffset会自动调整适应屏幕，但是这个属性偶尔会出问题，当navigationBar隐藏时，会出现奇怪的现象。
