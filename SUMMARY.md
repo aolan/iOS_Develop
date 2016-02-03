@@ -4,6 +4,7 @@
 
 This is the summary of this document.
 
+* [文件管理](Content/File.md)
 * [创建消息推送证书](Content/创建消息推送证书.md)
 * [NSArray和NSSet](Content/Collection.md)
 * [设备唯一标识IDFA](Content/IDFA.md)
