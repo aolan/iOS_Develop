@@ -15,7 +15,7 @@
 
 ##区别
 
-* 1、extension相当于一个匿名的category，extension是在编译器决议，就是类的一部分。一般用来隐藏私有信息，必须有类的源码才能为一个类添加extension；
+* 1、extension相当于一个匿名的category，extension是在编译期决议，就是类的一部分。一般用来隐藏私有信息，必须有类的源码才能为一个类添加extension；
 * 2、category是在运行期决议的，所以无法添加实例变量。如果需要添加可以采用关联对象的方式进行。
 
 ##Category方法覆盖
