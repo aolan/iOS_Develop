@@ -17,5 +17,6 @@
   * [XCode Code Snippet](Content/Snippet.md)
   * [UIViewController若干属性](Content/UIViewController.md)
   * [Category和Extension](Content/Category.md)
+  * [设计模式](Content/DesignPatterns.md)
 
 

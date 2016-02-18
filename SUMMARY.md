@@ -17,5 +17,6 @@ This is the summary of this document.
 * [swift中lazy延迟加载](Content/swift02.md)
 * [UIViewController若干属性](Content/UIViewController.md)
 * [Category和Extension](Content/Category.md)
+* [设计模式](Content/DesignPatterns.md)
 
 
