@@ -18,5 +18,6 @@
   * [UIViewController若干属性](Content/UIViewController.md)
   * [Category和Extension](Content/Category.md)
   * [设计模式](Content/DesignPatterns.md)
+  * [内存管理](Content/Memory.md)
 
 
