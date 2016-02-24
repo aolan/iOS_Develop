@@ -19,5 +19,6 @@ This is the summary of this document.
 * [Category和Extension](Content/Category.md)
 * [设计模式](Content/DesignPatterns.md)
 * [内存管理](Content/Memory.md)
+* [排序算法](Content/Sort.md)
 
 
