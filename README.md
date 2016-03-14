@@ -20,5 +20,6 @@
   * [设计模式](Content/DesignPatterns.md)
   * [内存管理](Content/Memory.md)
   * [排序算法](Content/Sort.md)
+  * [iOS编程实战iOS7](Content/iOS7.md)
 
 
