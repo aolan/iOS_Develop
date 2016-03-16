@@ -5,3 +5,5 @@
 3、UIMotionEffect
 
 4、UIPageViewController
+
+5、弱引用容器(指针类容器)【NSPointerArray、NSHashTable、NSMapTable】
