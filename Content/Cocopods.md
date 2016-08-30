@@ -148,4 +148,6 @@ Cocopods配置文件目录在 **~/.cocoapods/** ，在该目录下存放的就�
 接下来的使用就跟Cocopods公共库是一样的了。so easy!  很方便，挺好的。
 
 
-使用这个链接：http://www.jianshu.com/p/4b63dfbd8be7
+也可以参考链接：
+http://www.jianshu.com/p/4b63dfbd8be7
+http://www.cocoachina.com/ios/20150228/11206.html
