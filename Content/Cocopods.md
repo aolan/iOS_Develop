@@ -147,6 +147,9 @@ Cocopods配置文件目录在 **~/.cocoapods/** ，在该目录下存放的就�
 ##使用
 接下来的使用就跟Cocopods公共库是一样的了。so easy!  很方便，挺好的。
 
+##cocoapods缓存问题
+缓存目录：/Users/souutsu/Library/Caches/CocoaPods
+
 
 也可以参考链接：
 
