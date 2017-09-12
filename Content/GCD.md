@@ -1,13 +1,13 @@
-#GCD全局调度队列(Global Dispatch Queues)
+# GCD全局调度队列(Global Dispatch Queues)
 
-##队列种类
+## 队列种类
 
 * 1、主线程的 *main queue* ，通过 *dipatch_get_main_queue* 获取；
 * 2、并行队列 *global dispatch queue* ，通过 *dispatch_get_global_queue* 获取，由系统创建，有三种不同的优先级，并行队列的执行顺序与其加入队列的顺序相同。
 * 3、串行队列 *serial queue* ，一般用于按顺序同步访问，可创建任意数量的串行队列，各个串行队列之间是并发的，一般用 *dispatch_queue_create* 来创建，非Arc的情况下需要手动释放队列。
 
 
-##调度方式
+## 调度方式
 
 * 1、*dispatch_async* 异步执行
 * 2、*dispatch_sync*  同步执行
@@ -15,7 +15,7 @@
 * 4、*dispatch_once*  一次执行
 
 
-##合并汇总
+## 合并汇总
 
 *dispatch_group_t* 示例代码：
 
