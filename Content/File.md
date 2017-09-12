@@ -1,10 +1,10 @@
-#模拟器路径变化
+# 模拟器路径变化
 
 1、xcode5及以前的版本，模拟器路径为：/Users/用户名/Library/Application Support/iPhone Simulator
 
 2、xcode6及以后的版本，模拟器路径为：/Users/用户名/ Library/Developer/CoreSimulator
 
-#几种常见的文件路径
+# 几种常见的文件路径
 
 
 文件路径 | 描述 |
@@ -15,7 +15,7 @@ Documents | 只有用户生成的文件、其他数据及其他程序不能重�
 Library/Preferences | ​这个目录包含应用程序的偏好设置文件。使用NSUserDefaults类进行偏好设置文件的创建、读取和修改。
 
 
-#知识点
+# 知识点
 
 1、 NSData    【缓冲区，对于32位的应用程序，NSData缓冲区最多可存储2GB的数据，对于64位的应用程序，最多可存储8EB（8亿GB的数据）】
 
