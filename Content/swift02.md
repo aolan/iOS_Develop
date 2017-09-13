@@ -1,6 +1,6 @@
-#Swift中延迟加载
+# Swift中延迟加载
 
-##Objective-c中延迟加载
+## Objective-c中延迟加载
 ```obj-c
 @property(nonatomic, strong) UILabel *nameLbl;
 	
@@ -13,7 +13,7 @@
 ```
 
 
-##Swift中延迟加载
+## Swift中延迟加载
 
 ```obj-c
 //在属性定义的地方，使用闭包来实例化属性
