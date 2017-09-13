@@ -1,12 +1,12 @@
-#setNeedsDisplay和setNeedsLayout异同
+# setNeedsDisplay和setNeedsLayout异同
 
 
-##相同点
+## 相同点
 
 两个方法都是异步执行的。
 
 
-##不同点
+## 不同点
 
 * setNeedsDisplay会调用drawRect:方法，方便绘图。
 
@@ -39,7 +39,7 @@
 		7.直接调用setLayoutSubviews。
 	
 		
-##使用drawRect方法应注意
+## 使用drawRect方法应注意
 
 	1、若使用UIView绘图，只能在drawRect：方法中获取相应的contextRef并绘图。如果在其他方法中获取将获取到一个invalidate的ref并且不能用于画图。drawRect：方法不能手动显示调用，必须通过调用setNeedsDisplay 或者 setNeedsDisplayInRect，让系统自动调该方法。
 	2、若使用calayer绘图，只能在drawInContext: 中（类似于drawRect）绘制，或者在delegate中的相应方法绘制。同样也是调用setNeedDisplay等间接调用以上方法
