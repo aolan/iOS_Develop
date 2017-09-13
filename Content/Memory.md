@@ -1,4 +1,4 @@
-#三种代理的写法是否有问题
+# 三种代理的写法是否有问题
 
 	* 1、@property(nonatomic,assign) id <BDelegate> delegate
 	* 2、@property(nonatomic,strong) id <BDelegate> delegate
