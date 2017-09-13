@@ -1,9 +1,9 @@
-#Cocopods私有包的创建
+# Cocopods私有包的创建
 
 使用cocopods可以将工程中的公用部分打成一个pod组件，方便其他工程引入，同时也比较方便用作版本管理。
 
 
-##安装Cocopods
+## 安装Cocopods
 
 
 安装比较简单，Mac下自带ruby，使用ruby的gem命令即可直接下载安装。
@@ -21,7 +21,7 @@
 
 
 
-##分析Cocopods配置文件目录
+## 分析Cocopods配置文件目录
 
 Cocopods配置文件目录在 **~/.cocoapods/** ，在该目录下存放的就是Cocopods配置文件，执行 **pod setup** 实际上就是从git上下载配置文件【[git链接](https://github.com/CocoaPods/Specs.git)】，如果我们需要创建 **Private Pod** ，可以从这个目录着手。
 
@@ -35,7 +35,7 @@ Cocopods配置文件目录在 **~/.cocoapods/** ，在该目录下存放的就�
 
 
 
-##创建私有的Pod
+## 创建私有的Pod
 
 假设我们有这样一种场景，一个app是由多个团队共同开发的，每个团队负责自己的业务模块。我们希望每个团队的代码都是相对独立的，或者说分别在不同的git仓库中，这样就不太会因为某一个团队提交了无法编译的代码导致开发延时。
 
@@ -120,7 +120,7 @@ Cocopods配置文件目录在 **~/.cocoapods/** ，在该目录下存放的就�
 最后将配置文件连同其所在目录推送到git远程仓库。
 
 
-##公共代码库
+## 公共代码库
 我这里创建的也是一个最简单的工程，然后把之前写好的公共控件拖进工程，当然这里代码也可以仅仅以文件夹的方式存在。不过最好还是一个完整的工程比较好，如果我们有测试需求，我们希望公共组件可以提供一些调用说明的话，会比较好。
 
 将公共组件push到另一个远端仓库。然后打上tag。可以如下命令打tag：
@@ -133,7 +133,7 @@ Cocopods配置文件目录在 **~/.cocoapods/** ，在该目录下存放的就�
 
 	  ss.source = { :git => "{gitlab address}/lawn.cao/vlhermes.git", :tag => "#{ss.version}" }
 
-##创建本地Cocopods配置文件
+## 创建本地Cocopods配置文件
 
 使用如下命令，可以将git上的Cocopods配置拉到本地 `/Users/lawn/.cocoapods/repos` 目录下。这里的 git address不是公用组件的地址，而是cocopods配置文件的git地址。
 
@@ -144,10 +144,10 @@ Cocopods配置文件目录在 **~/.cocoapods/** ，在该目录下存放的就�
 ![Mou icon](../Images/23.jpg)
 
 
-##使用
+## 使用
 接下来的使用就跟Cocopods公共库是一样的了。so easy!  很方便，挺好的。
 
-##cocoapods缓存问题
+## cocoapods缓存问题
 缓存目录：/Users/souutsu/Library/Caches/CocoaPods
 
 
