@@ -6,7 +6,7 @@
 	
 - (UILabel *)nameLbl{
 	if(!_nameLbl){
-		_nameLbl = [[UILabel alloc] init];
+	   _nameLbl = [[UILabel alloc] init];
 	}
 	return _nameLbl;
 }	
