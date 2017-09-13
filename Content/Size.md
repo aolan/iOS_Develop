@@ -1,12 +1,12 @@
-#sizeToFit && sizeThatFits
+# sizeToFit && sizeThatFits
 
-##sizeToFit
+## sizeToFit
 
 	直接修改view的bounds。
 	
 
 
-##sizeThatFits
+## sizeThatFits
 
 	返回最佳的size，但是不直接修改view的bounds。
 	
