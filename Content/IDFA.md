@@ -1,6 +1,6 @@
-#使用IDFA通过AppStore审核
+# 使用IDFA通过AppStore审核
 
-##获取IDFA广告标识符
+## 获取IDFA广告标识符
 
 	NSString *addId =  [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
 	
@@ -14,7 +14,7 @@ IDFA是用系统存储的，但是在下面几种情况会重置广告标识符�
 
 ***
 
-##提交AppStore注意事项
+## 提交AppStore注意事项
 
 我们经常会使用IDFA作为设备的唯一标识，然而如果使用不当就好被AppStore拒绝.
 
