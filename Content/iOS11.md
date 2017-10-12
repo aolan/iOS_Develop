@@ -16,6 +16,10 @@
 
 * ARKit
 
+* PDFKit
+
+* Core NFC    [参考链接]( https://github.com/hansemannn/iOS11-NFC-Example)
+
 # API
 
 * ```[UIColor colorNamed: @"colorName"]; ```      // 可以在Assets中增加ColorSet
