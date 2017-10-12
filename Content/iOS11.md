@@ -14,5 +14,5 @@
 
 # API
 
-* [UIColor colorNamed: @"colorName"];       可以在Assets中增加ColorSet
+* ```[UIColor colorNamed: @"colorName"]; ```      // 可以在Assets中增加ColorSet
 
