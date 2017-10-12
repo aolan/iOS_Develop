@@ -14,6 +14,8 @@
 
 * Core ML
 
+* Vision
+
 * ARKit
 
 * PDFKit
