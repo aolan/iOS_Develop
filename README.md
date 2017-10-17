@@ -4,7 +4,7 @@
   * [文件管理](Content/File.md)
   * [GCD](Content/GCD.md)
   * [创建消息推送证书](Content/创建消息推送证书.md)
-  * [NSArray 和 NSSet](Content/Collection.md)
+  * [iOS集合类](Content/Collection.md)
   * [设备唯一标识IDFA](Content/IDFA.md)
   * [非常好用的开发工具和第三方框架](Content/ThirdPart.md)
   * [如何发布app](Content/SubmitApp.md)
