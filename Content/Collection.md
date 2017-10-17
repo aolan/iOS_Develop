@@ -1,19 +1,3 @@
-# 相同点
-
-都是集合对象
-
-# 不同点
-
-NSSet存储的是无序的对象集合，在内存中存储方式也是不连续的。
-NSArray是有序的对象集合，存储位置是连续的。
-
-# 总结
-
-1、在已知一个对象时，想知道这个对象是否在集合中，使用NSSet效率高。
-2、判断集合A是否是集合B的子集，可以使用 [A isSubsetOfSet:B]。
-3、判断集合A和集合B是否有交集，可以使用[A intersects:B]。
-4、NSMutableSet还有很多很方便的方法。
-
 
 
 # NSSet 常用方法总结
@@ -41,3 +25,11 @@ NSArray是有序的对象集合，存储位置是连续的。
 -(void)unionSet:nsset | 将nsset的所有元素添加到集合
 -(void)minusSet:nsset | 从集合中去掉所有的NSSet 的元素
 -(void)interectSet:nsset | 集合和NSSet 做交集运算
+
+优点
+
+1、在已知一个对象时，想知道这个对象是否在集合中，使用NSSet效率高。
+2、判断集合A是否是集合B的子集，可以使用 [A isSubsetOfSet:B]。
+3、判断集合A和集合B是否有交集，可以使用[A intersects:B]。
+
+
