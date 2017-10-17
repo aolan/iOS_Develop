@@ -1,6 +1,6 @@
 # 识别二维码
 
-```
+```objc
 
 UIImage * srcImage = qrcodeImage;
 
@@ -16,7 +16,7 @@ NSString *result = feature.messageString;
 
 # 生成二维码
 
-```
+```objc
 
 NSString *text = self.tfCode.text;
 
