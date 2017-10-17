@@ -42,6 +42,13 @@
 
 # NSHashTable
 
+NSHashTable相当于NSMutableSet，但提供了比NSMutableSet更多的操作选项，尤其是在对弱引用关系的支持上。
+
+1. NSHashTable是可变的。
+2. 它可以持有元素的弱引用，而且在对象被销毁后能正确地将其移除。
+3. 它的成员可以在添加时被拷贝。
+4. 它的成员可以使用指针来标识是否相等及做hash检测。
+5. 它可以包含任意指针，其成员没有限制为对象。我们可以配置一个NSHashTable实例来操作任意的指针，而不仅仅是对象。
 
 
 # NSMapTable
