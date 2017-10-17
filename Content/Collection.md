@@ -33,3 +33,17 @@
 3. 判断集合A和集合B是否有交集，可以使用[A intersects:B]。
 
 
+
+# NSPointerArray
+
+指针数组，用起来跟NSMutableArray类似，可以存储强/弱引用对象，也可以存储普通的C指针。
+
+
+
+# NSHashTable
+
+
+
+# NSMapTable
+
+
