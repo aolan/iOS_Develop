@@ -46,4 +46,16 @@
 
 # NSMapTable
 
+NSMapTable 可以处理的 ```key -> obj ```式映射如 ```NSDictionary```，但它也可以处理 ```obj -> obj``` 的映射 - 也被称为 “关联数组” 或简称为 “map”。
+
+```objc
+
+// 这种跟NSMutableDictionary的效果是一样的
+NSMapTable *keyToObjectMapping = [NSMapTable mapTableWithKeyOptions:NSMapTableCopyIn valueOptions:NSMapTableStrongMemory];
+
+// 对象到对象的映射
+NSMapTable *objectToObjectMapping = [NSMapTable mapTableWithStrongToStrongObjects];
+
+```
+
 
