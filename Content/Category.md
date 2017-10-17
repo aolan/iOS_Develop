@@ -22,38 +22,45 @@
 
 如果一个类有两个拓展category，并且都有相同的方法，这个和继承不一样，并不是完全的替换原来类的同名方法，只是category的该方法在方法列表的前面而已，因此如果想要找到原来的方法，只需要获取到methodList中的最后一个方法即可。代码如下：
 
-	Class currentClass = [MyClass class];
-	MyClass *my = [[MyClass alloc] init];
-	
-	if (currentClass) {
-	    unsigned int methodCount;
-	    Method *methodList = class_copyMethodList(currentClass, &methodCount);
-	    IMP lastImp = NULL;
-	    SEL lastSel = NULL;
-	    for (NSInteger i = 0; i < methodCount; i++) {
-	        Method method = methodList[i];
-	        NSString *methodName = [NSString stringWithCString:sel_getName(method_getName(method)) 
-	                                        encoding:NSUTF8StringEncoding];
+```objc
+
+MyClass *my = [[MyClass alloc] init];
+
+Class currentClass = [MyClass class];
+if (currentClass) {
+	unsigned int methodCount;
+	Method *methodList = class_copyMethodList(currentClass, &methodCount);
+	IMP lastImp = NULL;
+	SEL lastSel = NULL;
+	for (NSInteger i = 0; i < methodCount; i++) {
+		Method method = methodList[i];
+	       	NSString *methodName = [NSString stringWithCString:sel_getName(method_getName(method)) 
+	        	                                  encoding:NSUTF8StringEncoding];
 	        if ([@"printName" isEqualToString:methodName]) {
 	            lastImp = method_getImplementation(method);
 	            lastSel = method_getName(method);
 	        }
 	    }
-	    typedef void (*fn)(id,SEL);
+	    
+	typedef void (*fn)(id,SEL);
 	
-	    if (lastImp != NULL) {
-	        fn f = (fn)lastImp;
-	        f(my,lastSel);
-	    }
-	    free(methodList);
+	if (lastImp != NULL) {
+	    fn f = (fn)lastImp;
+	    f(my,lastSel);
 	}
-
+	free(methodList);
+}	
+```
 
 ## 拓展
 
 这个命令可以将.m文件编译成cpp文件
 
-	clang -rewrite-objc MyClass.m
+```objc 
+
+clang -rewrite-objc MyClass.m
+
+```
 	
 	
 参考 : http://tech.meituan.com/DiveIntoCategory.html
