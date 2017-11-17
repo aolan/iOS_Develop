@@ -28,4 +28,5 @@
   * [coding小技巧](Content/Tips.md)
   * [FBKVOController注意事项](Content/FBKVOController.md)
   * [iPhone使用小技巧](Content/iPhone.md)
+  * [iPhone外设方案](Content/peripheral.md)
 
