@@ -278,5 +278,7 @@ func openUrlScheme()->Bool
 
 
 参考链接：http://www.blogfshare.com/ios-protect.html
+
 参考链接：http://blog.csdn.net/tianjifou/article/details/77963252
+
 HTTPS参考：http://www.jianshu.com/p/4102b817ff2f
