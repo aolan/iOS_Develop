@@ -275,10 +275,22 @@ func openUrlScheme()->Bool
 
 
 
-
-
 参考链接：http://www.blogfshare.com/ios-protect.html
 
 参考链接：http://blog.csdn.net/tianjifou/article/details/77963252
 
 HTTPS参考：http://www.jianshu.com/p/4102b817ff2f
+
+
+
+# 工具使用
+
+## class-dump
+
+1. 下载 `http://stevenygard.com/download/class-dump-3.5.tar.gz`
+
+2. 解压后将二进制文件class-dump复制到 `/usr/local/bin`目录下，并赋予可执行权限 `sudo chmod 777 /usr/local/bin/class-dump`
+
+3. `class-dump -H yourAPP.app -o header` 就可以将头文件反编译出来
+
+4. 通过查看头文件，发现类私有方法、私有属性全部都被反编译出来，所以代码混淆工作还是非常有必要的。
