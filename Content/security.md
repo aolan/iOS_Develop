@@ -291,11 +291,47 @@ HTTPS参考：http://www.jianshu.com/p/4102b817ff2f
 
 2. 解压后将二进制文件class-dump复制到 `/usr/local/bin`目录下，并赋予可执行权限 `sudo chmod 777 /usr/local/bin/class-dump`
 
-3. `class-dump -H yourAPP.app -o header` 就可以将头文件反编译出来
+3. 对于未加壳的[Mach-O](http://www.jianshu.com/p/bcc7ba20f900)文件，class-dump可以从Mach-O的section中还原出objc代码的头文件，头文件中包含类名、方法名、协议名、结构体定义等。如果导出ipa包是选择了bitcode选项，则无法dump出头文件。
+
+
+> 常用命令
+
+```
+// 显示变量偏移，偏移将会以注释的方式给出
+class-dump -a xxx.app | > 1.txt
+
+```
+
+
+```
+// 显示函数地址，在方法名后面多了函数地址IMP
+class-dump -A xxx.app | > 1.txt
+
+```
+
+```
+// 静态方法，成员方法，属性均按字母序排列
+class-dump -S  xxx.app | > 1.txt
+
+```
+
+
+```
+
+// 查看Mach-O适应的CPU架构
+class-dump --list-arches xxx.app
+
+```
+
+```
+// 标准用法，也是比较好的用法，会将头文件定义分开成多个文件
+class-dump -HAa xxx.app -o header/
+
+```
 
 通过查看头文件，观察到的现象如下：
 
-> 1. 可以看到类的所有方法，包括私有方法和公共方法，所以代码混淆工作非常必要；
+> 1. 可以看到类的所有方法，包括私有方法和公共方法，以及方法的函数地址，所以代码混淆工作非常必要；
 
 > 2. 定义在头文件中的全局变量、枚举和宏，反编译出来后在头文件中是看不到的；
 
