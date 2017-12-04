@@ -168,7 +168,7 @@ HTTPS = HTTP + SSL/TLS 	(Secure Sockets Layer / Transport Layer Security)
 
 ## 逆向工程反编译APP
 
-市场上有很多反编译工具如class-dump-z、IDA、Hopper Disassembler，他们通常是和Clutch一起使用。因为APP Store上的APP都是加密过的，需要先解密，解密一般可以得到资源文件、二进制文件， Clutch 就是做这个工作的软件。class-dump-z ，一般用来反编译oc工程，不支持swift，IDA收费，而且太贵，我们主要使用Hopper来反编译项目。只要将项目的二进制文件拖入hopper内即可反编译。
+市场上有很多反编译工具如class-dump-z、IDA、Hopper Disassembler，他们通常是和[Clutch](http://www.jianshu.com/p/4cfd86600ced)一起使用。因为APP Store上的APP都是加密过的，需要先解密，解密一般可以得到资源文件、二进制文件， Clutch 就是做这个工作的软件。class-dump-z ，一般用来反编译oc工程，不支持swift，IDA收费，而且太贵，我们主要使用Hopper来反编译项目。只要将项目的二进制文件拖入hopper内即可反编译。
 
 
 ### 字符串加密
