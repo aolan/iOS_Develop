@@ -32,3 +32,6 @@ http://itunes.apple.com/lookup?id=961330940
 
 4. 审核团队电话 01085255770
 
+
+## [苹果官方帮助文档](https://itunespartner.apple.com/cn/apps/overview)
+
