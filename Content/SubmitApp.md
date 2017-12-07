@@ -16,7 +16,19 @@
 4.搜索关键字非常重要，总共只有100个字符，包括标点符号，所以应该尽可能的用精炼的关键字，写更多的关键字；
 
 
-# 获取当前app版本号
+## 获取当前app版本号
 
 itunes提供了一个接口，可以获取商店的app版本号，例如
 http://itunes.apple.com/lookup?id=961330940
+
+
+## 苹果审核电话
+
+1. [直接提交申诉理由 (里面还有一起其他功能 如加速审核等.)](https://developer.apple.com/contact/app-store/?topic=appeal)
+
+2. [开发问题, 貌似也可以问一些审核问题](https://developer.apple.com/contact/submit.php)
+
+3. [苹果相关地区联系电话](https://developer.apple.com/contact/phone.php)
+
+4. 审核团队电话 01085255770
+
