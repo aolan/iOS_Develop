@@ -30,4 +30,6 @@
   * [iPhone使用小技巧](Content/iPhone.md)
   * [iPhone外设方案](Content/peripheral.md)
   * [APP安全](Content/security.md)
+  * [APP支持spotlight搜索iOS9](http://www.jianshu.com/p/681a4af30d17)
+
 
