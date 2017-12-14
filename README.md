@@ -31,5 +31,6 @@
   * [iPhone外设方案](Content/peripheral.md)
   * [APP安全](Content/security.md)
   * [APP支持spotlight搜索iOS9](http://www.jianshu.com/p/681a4af30d17)
+  * [提高APP的搜索排名](https://www.chandashi.com/vipkeyword/doctor.html)
 
 
