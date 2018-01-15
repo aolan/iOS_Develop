@@ -37,10 +37,10 @@
 
 ```objc
 
-#if __has_include(<UIKit/UIKit.h>)
-    NSLog(@"包含UIKit库");
+#if __has_include(<YTKNetwork/YTKNetwork.h>)
+    NSLog(@"包含YTKNetwork库");
 #else
-    NSLog(@"不包含UIKit库");
+    NSLog(@"不包含YTKNetwork库");
 #endif
 
 ```
