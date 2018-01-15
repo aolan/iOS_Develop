@@ -44,3 +44,10 @@
 #endif
 
 ```
+
+4. `FOUNDATION_EXPORT` 这个关键字来定义字符串，那么和 #define 的区别在哪里呢：[参考链接](https://www.jianshu.com/p/0694eb214d87)
+
+* `FOUNDATION_EXPORT` 检测字符串的值是否相等的时候更快。可以直接使用(stringInstance == MyFirstConstant)来比较，比较的是指针地址。
+* `define` 则是使用 ([stringInstance isEqualToString: MyFirstConstant])来比较的，按照字符遍历比较。
+
+
