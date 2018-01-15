@@ -32,3 +32,15 @@
 #pragma clang diagnostic pop
 
 ```
+
+3. __has_include 判断是否包含某个库
+
+```objc
+
+#if __has_include(<UIKit/UIKit.h>)
+    NSLog(@"包含UIKit库");
+#else
+    NSLog(@"不包含UIKit库");
+#endif
+
+```
