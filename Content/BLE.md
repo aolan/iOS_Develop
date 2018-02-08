@@ -119,17 +119,21 @@
 
 ### iOS实现
  
-  > iOS中可以实现经典蓝牙和BLE两种方案：经典蓝牙调用 `ExternalAccessory` 库，该蓝牙设备需要经过苹果的MFI认证；BLE调用 `CoreBluetooth` 库，不需要MFI认证。
+ 1. iOS中可以实现经典蓝牙和BLE两种方案。
 
- 1. iOS10之后需要在Info.plist中添加 `NSBluetoothPeripheralUsageDescription` 描述。
+ > 经典蓝牙调用 `ExternalAccessory` 库，该蓝牙设备需要经过苹果的MFI认证。（蓝牙软件开发者使用苹果标准的Bluetooth profiles可以不用申请MFi开发认证，参考链接 https://support.apple.com/zh-cn/HT204387）；
 
- 2. 前后台执行
+ > BLE调用 `CoreBluetooth` 库，不需要MFI认证。
+
+ 2. iOS10之后需要在Info.plist中添加 `NSBluetoothPeripheralUsageDescription` 描述。
+
+ 3. 前后台执行
 
  > 只支持前台执行：进入后台之后程序会被挂起，挂起状态下无法处理蓝牙相关业务，直到重新回到前台。最直接的表现是central无法扫描和发现peripheral的广播包；在peripheral端就会表现为停止广播，任何central想访问characteristic的值都将收到异常信息。
 
  > 后台执行：对于外设端需要在Info.plist中增加 `Required background modes` -> `bluetooth-peripheral`；对于主机端需要在Info.plist中增加 `Required background modes` -> `bluetooth-central`。
 
- 3. 首先是主机端代码
+ 4. 首先是主机端代码
 
 
  ```objc
@@ -576,7 +580,7 @@ typedef void(^QXCentralBluetoothReceiveDataBlock)(QXCentralManager *manager, NSD
 
  ```
 
- 4. 从机端代码
+ 5. 从机端代码
 
  ``` objc
 
@@ -980,7 +984,7 @@ typedef void(^QXPeripheralBluetoothReceiveDataBlock)(QXPeripheralManager *manage
 
  ```
 
- 5. 参数配置实例，可以自己定义
+ 6. 参数配置实例，可以自己定义
 
  ``` objc
 
@@ -1018,4 +1022,6 @@ typedef void(^QXPeripheralBluetoothReceiveDataBlock)(QXPeripheralManager *manage
  http://blog.csdn.net/u010597493/article/details/52462315
 
  https://zhuanlan.zhihu.com/p/30923196
+
+ https://www.jianshu.com/p/6de5398d6332
 
