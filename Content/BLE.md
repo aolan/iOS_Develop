@@ -119,7 +119,7 @@
 
 ### iOS实现
  
-	> iOS中可以实现经典蓝牙和BLE两种方案：经典蓝牙调用 `ExternalAccessory` 库，该蓝牙设备需要经过苹果的MFI认证；BLE调用 `CoreBluetooth` 库，不需要MFI认证。
+  > iOS中可以实现经典蓝牙和BLE两种方案：经典蓝牙调用 `ExternalAccessory` 库，该蓝牙设备需要经过苹果的MFI认证；BLE调用 `CoreBluetooth` 库，不需要MFI认证。
 
  1. iOS10之后需要在Info.plist中添加 `NSBluetoothPeripheralUsageDescription` 描述。
 
