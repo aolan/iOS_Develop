@@ -121,6 +121,889 @@
 
  1. iOS10之后需要在Info.plist中添加 `NSBluetoothPeripheralUsageDescription` 描述。
 
+ 2. 前后台执行
+
+ > 只支持前台执行：进入后台之后程序会被挂起，挂起状态下无法处理蓝牙相关业务，直到重新回到前台。最直接的表现是central无法扫描和发现peripheral的广播包；在peripheral端就会表现为停止广播，任何central想访问characteristic的值都将收到异常信息。
+
+ > 后台执行：对于外设端需要在Info.plist中增加 `Required background modes` -> `bluetooth-peripheral`；对于主机端需要在Info.plist中增加 `Required background modes` -> `bluetooth-central`。
+
+ 3. 首先是主机端代码
+
+
+ ```objc
+
+//
+//  QXCentralManager.h
+//  TestBluetooth
+//
+//  Created by lawn.cao on 2018/1/31.
+//  Copyright © 2018年 lawn. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@class QXCentralManager;
+
+#pragma mark - 定义回调block
+
+typedef void(^QXCentralBluetoothDidReadyBlock)(QXCentralManager *manager);
+typedef void(^QXCentralBluetoothDidConnectBlock)(QXCentralManager *manager);
+typedef void(^QXCentralBluetoothDisConnectBlock)(QXCentralManager *manager);
+typedef void(^QXCentralBluetoothReceiveDataBlock)(QXCentralManager *manager, NSData *data);
+
+
+
+#pragma mark - QXCentralManager
+
+@interface QXCentralManager : NSObject
+
+/// 蓝牙状态处于开启状态，则回调该block，这个时候就可以开启扫描了
+@property (nonatomic, copy  ) QXCentralBluetoothDidReadyBlock readyBlock;
+/// 连接上外设，并且成功订阅到关注的特征值，才会回调该block，触发数据的发送最好放在该回调中
+@property (nonatomic, copy  ) QXCentralBluetoothDidConnectBlock connectBlock;
+/// 与外设断开连接，则回调该block
+@property (nonatomic, copy  ) QXCentralBluetoothDisConnectBlock disConnectBlock;
+/// 读取到外设的数据回调
+@property (nonatomic, copy  ) QXCentralBluetoothReceiveDataBlock receiveDataBlock;
+
+/**
+ 初始化方法
+
+ @param peripheralName 指定要连接的蓝牙外设订阅名称
+ @param advertisementName 播发的订阅名称，与设备名称两者需要有一个，用于判断连接哪台设备
+ @param serviceUUID 指定关注的外设的服务，其中serviceUUID是长度为32的字符串，用"-"分割，分割规则为8-4-4-4-12，如 123e4567-e89b-12d3-a456-426655440000
+ @param readCharacteristicUUID 指定关注的读特性，同serviceUUID的规则一致
+ @param writeCharacteristicUUID 指定关注的特性，同serviceUUID的规则一致
+ @return 返回QXCentralManager实例
+ */
+- (instancetype)initWithPeripheralName:(NSString *)peripheralName
+                     advertisementName:(NSString *)advertisementName
+                           serviceUUID:(NSString *)serviceUUID
+                readCharacteristicUUID:(NSString *)readCharacteristicUUID
+               writeCharacteristicUUID:(NSString *)writeCharacteristicUUID;
+
+
+/// 开始扫描，当前仅当蓝牙处于开启状态时，调用该方法有效，一般放在readyBlock中调用
+- (void)beginScanPeripheral;
+
+/// 写数据到外设
+- (void)writeData:(NSData *)data;
+
+/// 关闭与外设的连接
+- (void)stop;
+
+@end
+
+
+ ```
+
+ ``` objc
+
+ //
+//  QXCentralManager.m
+//  TestBluetooth
+//
+//  Created by lawn.cao on 2018/1/31.
+//  Copyright © 2018年 lawn. All rights reserved.
+//
+
+#import "QXCentralManager.h"
+#import <CoreBluetooth/CoreBluetooth.h>
+
+
+@interface QXCentralManager()<CBCentralManagerDelegate, CBPeripheralDelegate>
+
+/// 主机设备管理
+@property (nonatomic, strong) CBCentralManager *centralManager;
+
+/// 指定要连接的蓝牙外设名称
+@property (nonatomic, copy  ) NSString *peripheralName;
+@property (nonatomic, copy  ) NSString *advertisementName;
+@property (nonatomic, copy  ) NSString *serviceUUIDString;
+@property (nonatomic, copy  ) NSString *readCharacteristicUUIDString;
+@property (nonatomic, copy  ) NSString *writeCharacteristicUUIDString;
+
+
+/// 指定的外设服务
+@property (nonatomic, strong) CBUUID *serviceUUID;
+/// 指定的外设的读特性
+@property (nonatomic, strong) CBUUID *readCharacteristicUUID;
+/// 指定的外设的写特征
+@property (nonatomic, strong) CBUUID *writeCharacteristicUUID;
+
+/// 写特征值
+@property (nonatomic, strong) CBCharacteristic *writeCharacteristic;
+
+/// 查找发现的外设，持有查找到的外设，防止外设对象被释放
+@property (nonatomic, strong) CBPeripheral *discoverPeripheral;
+
+@property (nonatomic, strong) dispatch_queue_t centralQueue;
+
+@end
+
+
+@implementation QXCentralManager
+
+#pragma mark - Lifecycle Methods
+
+/// 初始化方法
+- (instancetype)initWithPeripheralName:(NSString *)peripheralName
+                     advertisementName:(NSString *)advertisementName
+                           serviceUUID:(NSString *)serviceUUID
+                readCharacteristicUUID:(NSString *)readCharacteristicUUID
+               writeCharacteristicUUID:(NSString *)writeCharacteristicUUID
+{
+    self = [super init];
+    
+    if (self) {
+        
+        _peripheralName = peripheralName;
+        _advertisementName = advertisementName;
+        _serviceUUIDString = serviceUUID;
+        _readCharacteristicUUIDString = readCharacteristicUUID;
+        _writeCharacteristicUUIDString = writeCharacteristicUUID;
+        
+        [self initializeCentralParameters];
+    }
+    return self;
+}
+
+- (void)beginScanPeripheral
+{
+    if (self.centralManager.state != CBCentralManagerStatePoweredOn) {
+        NSLog(@"蓝牙尚未开启，无法执行扫描任务。");
+        return;
+    }
+    
+    [self scanPeripherals];
+}
+
+- (void)writeData:(NSData *)data
+{
+    dispatch_async(_centralQueue, ^{
+        
+        if (_writeCharacteristic == nil) {
+            if (data && self.discoverPeripheral.services.count > 0) {
+                for (CBService *service in self.discoverPeripheral.services) {
+                    if ([service.UUID isEqual:_serviceUUID] && service.characteristics.count > 0) {
+                        for (CBCharacteristic *characteristic in service.characteristics) {
+                            if ([characteristic.UUID isEqual:_writeCharacteristicUUID]) {
+                                _writeCharacteristic = characteristic;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (_writeCharacteristic && self.centralManager.state == CBCentralManagerStatePoweredOn) {
+            [self.discoverPeripheral writeValue:data forCharacteristic:_writeCharacteristic type:CBCharacteristicWriteWithoutResponse];
+        }
+    });
+}
+
+- (void)stop
+{
+    dispatch_async(_centralQueue, ^{
+        
+        /// 关闭扫描
+        if (self.centralManager.isScanning) {
+            [self.centralManager stopScan];
+        }
+        
+        // 取消连接
+        if (self.discoverPeripheral) {
+            [self.centralManager cancelPeripheralConnection:self.discoverPeripheral];
+        }
+    });
+}
+
+
+
+#pragma mark - Bluetooth Methods
+
+/// 初始化 CBCentralManager
+- (void)initializeCentralParameters
+{
+    // 初始化UUIDs标识
+    _serviceUUID = [self createUUID:_serviceUUIDString];
+    _readCharacteristicUUID = [self createUUID:_readCharacteristicUUIDString];
+    _writeCharacteristicUUID = [self createUUID:_writeCharacteristicUUIDString];
+    
+    if (!_serviceUUID) {
+        NSLog(@"设定的外设服务UUID不合法");
+        return;
+    }
+    if (!_readCharacteristicUUID) {
+        NSLog(@"设定的外设读特性UUID不合法");
+        return;
+    }
+    if (!_writeCharacteristicUUID) {
+        NSLog(@"设定的外设写特性UUID不合法");
+        return;
+    }
+    
+    // 初始化执行queue
+    _centralQueue = dispatch_queue_create("com.qxwz.bluetooth.central", DISPATCH_QUEUE_SERIAL);
+    
+    // 初始化主机管理器
+    _centralManager = [[CBCentralManager alloc] initWithDelegate:self
+                                                           queue:_centralQueue
+                                                         options:@{CBCentralManagerOptionShowPowerAlertKey: @YES}];
+}
+
+/// 扫描设备
+- (void)scanPeripherals
+{
+    dispatch_async(_centralQueue, ^{
+        // 先清空上一次保存的数据，再重新扫描
+        self.discoverPeripheral = nil;
+        self.writeCharacteristic = nil;
+        NSLog(@"开始扫描...");
+        NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey:@(NO)};
+        [self.centralManager scanForPeripheralsWithServices:nil options:options];
+    });
+}
+
+/// 查找到外设之后，关闭扫描，并连接扫描到的外设
+- (void)connectPeripheral:(CBPeripheral *)peripheral
+{
+    self.discoverPeripheral = peripheral;
+    [self.centralManager stopScan];
+    [self.centralManager connectPeripheral:peripheral options:nil];
+}
+
+#pragma mark - Help Methods
+
+/// 创建CBUUID对象
+- (CBUUID *)createUUID:(NSString *)UUID
+{
+    if (!UUID || UUID.length == 0) {
+        return nil;
+    }
+    
+    NSArray *tmpArry = [UUID componentsSeparatedByString:@"-"];
+    if (tmpArry && tmpArry.count == 5) {
+        NSString *part1 = [tmpArry objectAtIndex:0];
+        NSString *part2 = [tmpArry objectAtIndex:1];
+        NSString *part3 = [tmpArry objectAtIndex:2];
+        NSString *part4 = [tmpArry objectAtIndex:3];
+        NSString *part5 = [tmpArry objectAtIndex:4];
+        if (!part1 || part1.length != 8) {
+            return nil;
+        }
+        if (!part2 || part2.length != 4) {
+            return nil;
+        }
+        if (!part3 || part3.length != 4) {
+            return nil;
+        }
+        if (!part4 || part4.length != 4) {
+            return nil;
+        }
+        if (!part5 || part5.length != 12) {
+            return nil;
+        }
+    }
+    return [CBUUID UUIDWithString:UUID];
+}
+
+/// 判断两个字符串是否相等
+- (BOOL)compare:(NSString *)str1 withString:(NSString *)str2
+{
+    if (!str1 || str1.length == 0) {
+        return NO;
+    }
+    
+    if (!str2 || str2.length == 0) {
+        return NO;
+    }
+
+    return [str1 isEqualToString:str2];
+}
+
+#pragma mark - CBCentralManagerDelegate
+
+/// 初始化 CBCentralManager 会回调该方法
+/// 如果蓝牙已经打开，则开始扫描设备
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central
+{
+    switch (central.state) {
+        case CBCentralManagerStateUnknown:{
+            NSLog(@"蓝牙状态未知");
+            break;
+        }
+        case CBCentralManagerStateResetting:{
+            NSLog(@"与系统服务的连接瞬间消失，即将更新");
+            break;
+        }
+        case CBCentralManagerStateUnsupported:{
+            NSLog(@"当前平台不支持低功耗蓝牙");
+            break;
+        }
+        case CBCentralManagerStateUnauthorized:{
+            NSLog(@"没有获取到蓝牙权限");
+            break;
+        }
+        case CBCentralManagerStatePoweredOff:{
+            NSLog(@"蓝牙已关闭");
+            break;
+        }
+        case CBCentralManagerStatePoweredOn:{
+            NSLog(@"蓝牙已经开启");
+            if (_readyBlock) {
+                _readyBlock(self);
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+/// 扫描外设，找到外设时回调
+/// 找到外设之后开始连接
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *, id> *)advertisementData RSSI:(NSNumber *)RSSI
+{
+    // 通过订阅名称判断是否是目标设备
+    NSString *advertisementName = [advertisementData valueForKey:CBAdvertisementDataLocalNameKey];
+    if ([self compare:advertisementName withString:_advertisementName]) {
+        NSLog(@"订阅的名称是: %@", _advertisementName);
+        [self connectPeripheral:peripheral];
+        return;
+    }
+    
+    // 通过设备名称判断是否是目标设备
+    if ([self compare:peripheral.name withString:_peripheralName]) {
+        NSLog(@"设备的名称是: %@", peripheral.name);
+        [self connectPeripheral:peripheral];
+        return;
+    }
+}
+
+/// 连接指定外设成功，连接成功之后则关闭扫描
+/// 查找指定的服务
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+{
+    NSLog(@"已连接到外围设备");
+    peripheral.delegate = self;
+    [peripheral discoverServices:@[_serviceUUID]];
+}
+
+/// 连接断开
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    NSLog(@"连接断开");
+    if (_disConnectBlock) {
+        _disConnectBlock(self);
+    }
+    [self scanPeripherals];
+}
+
+/// 连接外设失败
+- (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error
+{
+    NSLog(@"连接失败，%@", error);
+    [self scanPeripherals];
+}
+
+
+
+#pragma mark - CBPeripheralDelegate
+
+/// 查找到指定的服务
+/// 查找该服务下的特性
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
+{
+    NSLog(@"已发现可用服务...");
+    // 遍历查找到的服务
+    for (CBService *service in peripheral.services) {
+        if([service.UUID isEqual:_serviceUUID]){
+            [peripheral discoverCharacteristics:@[_readCharacteristicUUID, _writeCharacteristicUUID] forService:service];
+            break;
+        }
+    }
+}
+
+/// 查找到特性的时候回调
+/// 订阅查找到的特征值
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(nullable NSError *)error
+{
+    NSLog(@"已发现%zd个可用特征", service.characteristics.count);
+    
+    if ([service.UUID isEqual:_serviceUUID]) {
+        
+        for (CBCharacteristic *characteristic in service.characteristics) {
+            
+            if ([characteristic.UUID isEqual:_readCharacteristicUUID]) {
+                // 读特征值的数据
+                [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+                [peripheral discoverDescriptorsForCharacteristic:characteristic];
+                // 订阅了服务的读特征值之后才算蓝牙已经可以发送数据了
+                if (_connectBlock) {
+                    _connectBlock(self);
+                }
+                break;
+            }
+        }
+    }
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+    if (characteristic.value) {
+        if (_receiveDataBlock) {
+            _receiveDataBlock(self, characteristic.value);
+        }
+    }else{
+        NSLog(@"外围设备特征值中没有数据");
+    }
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didModifyServices:(NSArray<CBService *> *)invalidatedServices
+{
+    NSLog(@"由于外设的原因导致服务停用");
+}
+
+
+
+@end
+
+
+ ```
+
+ 4. 从机端代码
+
+ ``` objc
+
+ //
+//  QXPeripheralManager.h
+//  TestBluetooth
+//
+//  Created by lawn.cao on 2018/1/31.
+//  Copyright © 2018年 lawn. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+
+@class QXPeripheralManager;
+
+#pragma mark - 定义回调block
+
+typedef void(^QXPeripheralBluetoothDidReadyBlock)(QXPeripheralManager *manager);
+typedef void(^QXPeripheralBluetoothDidBroadCastSuccessBlock)(QXPeripheralManager *manager, BOOL isSuccess, NSData *data);
+typedef void(^QXPeripheralBluetoothDidIdleBlock)(QXPeripheralManager *manager);
+typedef void(^QXPeripheralBluetoothReceiveDataBlock)(QXPeripheralManager *manager, NSData *data, CBCentral *fromCentral);
+
+
+#pragma mark - QXPeripheralManager
+
+@interface QXPeripheralManager : NSObject
+
+/// 已经有主机连接上来并订阅了特征值，回调该方法，这个时候可以开始播发数据了
+@property (nonatomic, copy  ) QXPeripheralBluetoothDidReadyBlock didBuletoothReadyBlock;
+
+/// 播发数据是否成功的回调，每次调用播发方法 "-(void)broadCastData:(NSData *)data;" 都会回到本次播发是否成功，如果失败，则会将未播发成功的数据回调回来
+@property (nonatomic, copy  ) QXPeripheralBluetoothDidBroadCastSuccessBlock didBroadCastSuccessBlock;
+
+/// 之前由于播发大量的数据导致蓝牙的队列被占满，当蓝牙队列空闲时会调用该回调
+@property (nonatomic, copy  ) QXPeripheralBluetoothDidIdleBlock bluetoothIdleBlock;
+
+/// 获取到从主机发过来的数据
+@property (nonatomic, copy  ) QXPeripheralBluetoothReceiveDataBlock didReceiveDataBlock;
+
+
+/**
+ 初始化方法
+
+ @param advertisementName 播发的订阅名称
+ @param serviceUUID 当前外设提供的服务标识，是长度为32的字符串，用"-"分割，分割规则为8-4-4-4-12，如 123e4567-e89b-12d3-a456-426655440000
+ @param readCharacteristicUUID 读特征，主机通过这个特征来获取数据
+ @param writeCharacteristicUUID 写特征，主机通过这个特征来发送数据给外设
+ @return 返回 QXPeripheralManager 实例
+ */
+- (instancetype)initWithAdvertisementName:(NSString *)advertisementName
+                           andServiceUUID:(NSString *)serviceUUID
+                andReadCharacteristicUUID:(NSString *)readCharacteristicUUID
+               andWriteCharacteristicUUID:(NSString *)writeCharacteristicUUID;
+
+
+/**
+ 播发数据
+
+ @param data 要播发的数据
+ */
+- (void)broadCastData:(NSData *)data;
+
+/**
+ 关闭外设
+ */
+- (void)stopPeripheral;
+
+@end
+
+
+ ```
+
+ ``` objc
+
+//
+//  QXPeripheralManager.m
+//  TestBluetooth
+//
+//  Created by lawn.cao on 2018/1/31.
+//  Copyright © 2018年 lawn. All rights reserved.
+//
+
+#import "QXPeripheralManager.h"
+#import <UIKit/UIKit.h>
+
+
+@interface QXPeripheralManager()<CBPeripheralManagerDelegate>
+
+/// 从机设备管理
+@property (nonatomic, strong) CBPeripheralManager *peripheralManager;
+
+/// 指定要连接的蓝牙外设名称
+@property (nonatomic, copy  ) NSString *advertisementName;
+@property (nonatomic, copy  ) NSString *serviceUUIDString;
+@property (nonatomic, copy  ) NSString *readCharacteristicUUIDString;
+@property (nonatomic, copy  ) NSString *writeCharacteristicUUIDString;
+
+/// 指定的外设服务
+@property (nonatomic, strong) CBUUID *serviceUUID;
+/// 指定的外设的读特性
+@property (nonatomic, strong) CBUUID *readCharacteristicUUID;
+/// 指定的外设的写特征
+@property (nonatomic, strong) CBUUID *writeCharacteristicUUID;
+
+/// 读特征值
+@property (nonatomic, strong) CBMutableCharacteristic *readCharacteristic;
+/// 写特征值
+@property (nonatomic, strong) CBMutableCharacteristic *writeCharacteristic;
+/// 服务
+@property (nonatomic, strong) CBMutableService *service;
+
+@property (nonatomic, strong) NSMutableArray *connectedCentrals;
+
+@property (nonatomic, strong) dispatch_queue_t peripheralQueue;
+
+@end
+
+
+
+@implementation QXPeripheralManager
+
+#pragma mark - Interface Methods
+
+/// 初始化方法
+- (instancetype)initWithAdvertisementName:(NSString *)advertisementName
+                           andServiceUUID:(NSString *)serviceUUID
+                andReadCharacteristicUUID:(NSString *)readCharacteristicUUID
+               andWriteCharacteristicUUID:(NSString *)writeCharacteristicUUID
+{
+    self = [super init];
+    
+    if (self) {
+        
+        _advertisementName = advertisementName;
+        _serviceUUIDString = serviceUUID;
+        _readCharacteristicUUIDString = readCharacteristicUUID;
+        _writeCharacteristicUUIDString = writeCharacteristicUUID;
+        
+        [self initializePeripheralParameters];
+    }
+    return self;
+}
+
+/// 播发数据
+- (void)broadCastData:(NSData *)data
+{
+    dispatch_async(_peripheralQueue, ^{
+       
+        if (data && _readCharacteristic && self.connectedCentrals.count > 0 && self.peripheralManager.state == CBPeripheralManagerStatePoweredOn) {
+            
+            BOOL isCouldBeSent = [self.peripheralManager updateValue:data
+                                                   forCharacteristic:_readCharacteristic
+                                                onSubscribedCentrals:_connectedCentrals];
+            if (_didBroadCastSuccessBlock) {
+                _didBroadCastSuccessBlock(self, isCouldBeSent, data);
+            }
+        }
+    });
+}
+
+/// 关闭外设
+- (void)stopPeripheral
+{
+    dispatch_async(_peripheralQueue, ^{
+       
+        // 停止播发
+        if (_peripheralManager.isAdvertising) {
+            [_peripheralManager stopAdvertising];
+        }
+        
+        // 移除已连接的主机
+        if (self.connectedCentrals) {
+            [_connectedCentrals removeAllObjects];
+        }
+        
+        // 移除服务
+        if (_service) {
+            [_peripheralManager removeService:_service];
+            self.service = nil;
+        }
+    });
+}
+
+
+#pragma mark - Bluetooth Methods
+
+/// 初始化所有参数
+- (void)initializePeripheralParameters
+{
+    NSLog(@"当前设备名称为：%@", [[UIDevice currentDevice] name]);
+    
+    // 初始化UUIDs标识
+    _serviceUUID = [self createUUID:_serviceUUIDString];
+    _readCharacteristicUUID = [self createUUID:_readCharacteristicUUIDString];
+    _writeCharacteristicUUID = [self createUUID:_writeCharacteristicUUIDString];
+    
+    if (!_serviceUUID) {
+        NSLog(@"设定的外设服务UUID不合法");
+        return;
+    }
+    if (!_readCharacteristicUUID) {
+        NSLog(@"设定的外设读特性UUID不合法");
+        return;
+    }
+    if (!_writeCharacteristicUUID) {
+        NSLog(@"设定的外设写特性UUID不合法");
+        return;
+    }
+
+    // 初始化特征值
+    _readCharacteristic = [[CBMutableCharacteristic alloc] initWithType:_readCharacteristicUUID
+                                                             properties:CBCharacteristicPropertyNotify
+                                                                  value:nil
+                                                            permissions:CBAttributePermissionsReadable];
+    _writeCharacteristic = [[CBMutableCharacteristic alloc] initWithType:_writeCharacteristicUUID
+                                                              properties:CBCharacteristicPropertyWriteWithoutResponse
+                                                                   value:nil
+                                                             permissions:CBAttributePermissionsWriteable];
+
+    // 初始化执行queue
+    _peripheralQueue = dispatch_queue_create("com.qxwz.bluetooth.peripheral", DISPATCH_QUEUE_SERIAL);
+    
+    // 初始化外设管理器
+    _peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:_peripheralQueue];
+}
+
+/// 设置外设服务
+- (void)addPeripheralService
+{
+    if (!_service) {
+        _service = [[CBMutableService alloc] initWithType:_serviceUUID primary:YES];
+        [_service setCharacteristics:@[_readCharacteristic, _writeCharacteristic]];
+        [_peripheralManager addService:_service];
+    }
+}
+
+/// 开始广播
+- (void)startAdvertising
+{
+    if (_advertisementName && _advertisementName.length > 0) {
+        NSDictionary *data = @{
+                               CBAdvertisementDataLocalNameKey: _advertisementName
+                               };
+        [self.peripheralManager startAdvertising:data];
+    }else{
+        [self.peripheralManager startAdvertising:nil];
+    }
+}
+
+#pragma mark - Help Methods
+
+/// 创建CBUUID对象
+- (CBUUID *)createUUID:(NSString *)UUID
+{
+    if (!UUID || UUID.length == 0) {
+        return nil;
+    }
+    
+    NSArray *tmpArry = [UUID componentsSeparatedByString:@"-"];
+    if (tmpArry && tmpArry.count == 5) {
+        NSString *part1 = [tmpArry objectAtIndex:0];
+        NSString *part2 = [tmpArry objectAtIndex:1];
+        NSString *part3 = [tmpArry objectAtIndex:2];
+        NSString *part4 = [tmpArry objectAtIndex:3];
+        NSString *part5 = [tmpArry objectAtIndex:4];
+        if (!part1 || part1.length != 8) {
+            return nil;
+        }
+        if (!part2 || part2.length != 4) {
+            return nil;
+        }
+        if (!part3 || part3.length != 4) {
+            return nil;
+        }
+        if (!part4 || part4.length != 4) {
+            return nil;
+        }
+        if (!part5 || part5.length != 12) {
+            return nil;
+        }
+    }
+    return [CBUUID UUIDWithString:UUID];
+}
+
+
+#pragma mark - CBPeripheralManagerDelegate
+
+/// 监听蓝牙状态
+/// 蓝牙开启，为蓝牙添加服务
+- (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
+{
+    switch (peripheral.state) {
+        case CBPeripheralManagerStateUnknown:{
+            NSLog(@"蓝牙状态未知");
+            break;
+        }
+        case CBPeripheralManagerStateResetting:{
+            NSLog(@"与系统服务的连接瞬间消失，即将更新");
+            break;
+        }
+        case CBPeripheralManagerStateUnsupported:{
+            NSLog(@"当前平台不支持低功耗蓝牙");
+            break;
+        }
+        case CBPeripheralManagerStateUnauthorized:{
+            NSLog(@"没有获取到蓝牙权限");
+            break;
+        }
+        case CBPeripheralManagerStatePoweredOff:{
+            NSLog(@"蓝牙已关闭");
+            break;
+        }
+        case CBPeripheralManagerStatePoweredOn:{
+            NSLog(@"蓝牙已经开启");
+            [self addPeripheralService];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+/// 添加服务成功
+/// 开始播发特性
+- (void)peripheralManager:(CBPeripheralManager *)peripheral didAddService:(CBService *)service error:(NSError *)error
+{
+    if (error) {
+        NSLog(@"%@", error);
+    }else{
+        NSLog(@"添加服务成功");
+        [self startAdvertising];
+    }
+}
+
+/// 正在播发特性
+- (void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(nullable NSError *)error
+{
+    if (error) {
+        NSLog(@"%@", error);
+    }else{
+        NSLog(@"正在广播特性");
+    }
+}
+
+/// 有主机订阅了某个特性
+- (void)peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didSubscribeToCharacteristic:(CBCharacteristic *)characteristic
+{
+    NSLog(@"主机已订阅读特征");
+    [self.connectedCentrals addObject:central];
+    
+    if (_didBuletoothReadyBlock) {
+        _didBuletoothReadyBlock(self);
+    }
+}
+
+/// 某个主机取消了订阅
+- (void)peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didUnsubscribeFromCharacteristic:(CBCharacteristic *)characteristic
+{
+    NSLog(@"取消订阅");
+    [self.connectedCentrals removeObject:central];
+}
+
+/// 收取到主机读的请求时，会调用该方法
+/// 这个方法适用于主机对数据要求的实时性比较高，主机需要数据时，会主动要求从机返回数据
+- (void)peripheralManager:(CBPeripheralManager *)peripheral didReceiveReadRequest:(CBATTRequest *)request
+{
+    NSLog(@"接收到读取数据的请求");
+}
+
+/// 收取到主机写的请求时，会调用该方法，一般用于获取主机传给从机的数据
+- (void)peripheralManager:(CBPeripheralManager *)peripheral didReceiveWriteRequests:(NSArray<CBATTRequest *> *)requests
+{
+    for (CBATTRequest *request in requests) {
+        if (request.value && _didReceiveDataBlock) {
+            _didReceiveDataBlock(self, request.value, request.central);
+        }
+    }
+}
+
+- (void)peripheralManagerIsReadyToUpdateSubscribers:(CBPeripheralManager *)peripheral
+{
+    if (_bluetoothIdleBlock) {
+        _bluetoothIdleBlock(self);
+    }
+}
+
+#pragma mark - Property Methods
+
+- (NSMutableArray *)connectedCentrals
+{
+    if (_connectedCentrals == nil) {
+        _connectedCentrals = [[NSMutableArray alloc] init];
+    }
+    return _connectedCentrals;
+}
+
+
+@end
+
+
+ ```
+
+ 5. 参数配置实例，可以自己定义
+
+ ``` objc
+
+ //
+//  QXMacro.h
+//  TestBluetooth
+//
+//  Created by lawn.cao on 2018/2/1.
+//  Copyright © 2018年 lawn. All rights reserved.
+//
+
+#ifndef QXMacro_h
+#define QXMacro_h
+
+#define kPeripheralName             @"iPhone6"
+#define kAdvertisementName          @"LocationServiceAdvertisement"
+#define kServiceUUID                @"68753A44-4D6F-1226-9C60-0050E4C00000"
+#define kReadCharacteristicUUID     @"68753A44-4D6F-1226-9C60-0050E4C11111"
+#define kWriteCharacteristicUUID    @"68753A44-4D6F-1226-9C60-0050E4C22222"
+
+#endif /* QXMacro_h */
+
+
+ ```
+
 
 ### 参考链接
 
