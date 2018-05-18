@@ -34,5 +34,5 @@
   * [提高APP的搜索排名](https://www.chandashi.com/vipkeyword/doctor.html)
   * [BLE蓝牙](Content/BLE.md)
   * [PlistBuddy](Content/PlistBuddy.md)
-
+  * [iOS持续化集成](Content/continuous_integration.md)
 
