@@ -1,6 +1,10 @@
 ## 持续集成实践
 
-持续集成方案: fastlane + oclint + xctest + xcov + build + match + jenkins
+两种方案：
+
+1. Xcode Server (https://www.jianshu.com/p/412ec2ffc8b9)
+
+2. 持续集成方案: fastlane + oclint + xctest + xcov + build + match + jenkins
 
 ``` 
 
