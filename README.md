@@ -36,4 +36,6 @@
   * [PlistBuddy](Content/PlistBuddy.md)
   * [iOS持续化集成](Content/continuous_integration.md)
   * [Vue.js学习笔记](Content/vuejs.md)
+  * [Weex调研](Content/weex.md)
+  * [单元测试](Content/unit_test.md)
 
