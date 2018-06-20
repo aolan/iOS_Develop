@@ -51,3 +51,22 @@
  * `define` 则是使用 ([stringInstance isEqualToString: MyFirstConstant])来比较的，按照字符遍历比较。
 
 
+5. `NSProxy`可以用于模拟多继承，[参考链接](http://ios.jobbole.com/87856/)
+
+```objc
+
+// 具体的原理是，NSProxy是一个虚类，可以通过继承它，重写下面的两个方法以实现消息转发到另一个实例
+// 使用场景：可以通过集成NSProxy实现消息的转发，相当于一个集约式的管理中心
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation
+{
+
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
+{
+    
+}
+
+```
+
