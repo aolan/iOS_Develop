@@ -1,4 +1,6 @@
-#  React学习 （http://www.runoob.com/react/react-tutorial.html)
+#  React学习
+
+参考链接：http://www.runoob.com/react/react-tutorial.html
 
 ## 简介
 
