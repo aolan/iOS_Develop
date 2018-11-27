@@ -1,13 +1,13 @@
 ## React Native
 
-### 搭建环境
+### 一、搭建环境
 
 参考链接：https://reactnative.cn/docs/getting-started/
 
 
-### 使用新工程显示首页
+### 二、使用新工程显示首页
 
-#### 导航栏
+#### 1.导航栏
 
 1. 引入react-navigation
 
@@ -15,18 +15,25 @@
 
 参考链接：https://reactnavigation.org/docs/en/getting-started.html
 
-#### 首页广告轮播
+#### 2.首页广告轮播
 
 1. 引入 react-native-swiper
 
 
-#### 首页横向滚动scrollView
+#### 3.首页横向滚动scrollView
 
 1. 横向滚动使用 FlatList
 
 
+### 五、引入到现有工程中
 
-### 打包
+1. react-navigation不能采用官方文档中的方式引入
+
+2.
+
+
+
+### 四、打包
 
 ```
 react-native bundle --entry-file index.js --bundle-output index.ios.jsbundle --platform ios --assets-dest ./ --dev false
