@@ -44,4 +44,5 @@
   * [React学习](Content/React.md)
   * [接入React Native](Content/react-native.md)
   * [使用xcodeproj开源工具自动更新工程](Content/xcodeproj.md)
+  * [ES6学习笔记](Content/es6.md)
 
