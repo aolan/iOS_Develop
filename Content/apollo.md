@@ -1,19 +1,22 @@
 
 # Apollo GraphQL 学习
 
-## 1. 下载代码
+
+## 一、学习过程
+
+### 1. 下载代码
 
 ```bash
 git clone https://github.com/apollographql/fullstack-tutorial.git
 ```
 
-## 2. 安装Server
+### 2. 安装Server
 
 ```bash
 cd start/server && npm install
 ```
 
-## 3. 编码
+### 3. 编码
 
 1. 修改文件 ```start/server/src/schema.js```
 
@@ -83,7 +86,7 @@ server.listen().then(({ url }) => {
 ```
 
 
-## 4. 启动server
+### 4. 启动server
 
 1. 在 ```start/server``` 目录下执行 ```npm start```
 
@@ -92,11 +95,11 @@ server.listen().then(({ url }) => {
 3. Apollo会判断 ```NODE_ENV``` 是否为 ```production```，如果是，则会关闭 introspect 功能
 
 
-## 5. 数据源介绍
+### 5. 数据源介绍
 
 数据源可以是 database、service、API等等
 
-### 5.1 采用 RESTDataSource 连接 REST API数据源
+#### 5.1 采用 RESTDataSource 连接 REST API数据源
 
 1. 配置数据源：修改 ```start/server/src/datasources/launch.js```文件
 
@@ -189,7 +192,7 @@ module.exports = LaunchAPI;
 ```
 
 
-### 5.2 连接数据库
+#### 5.2 连接数据库
 
 1. 官方示例中，```start/server/src/datasources/user.js``` 文件，会导出 ```UserAPI``` 模块，该模块初始化时，需要传入 ```store```。
 
@@ -199,7 +202,7 @@ module.exports = LaunchAPI;
 
 
 
-## 6. 给Server增加数据源
+### 6. 给Server增加数据源
 
 修改 ```start/server/src/index.js```文件如下
 
@@ -227,7 +230,7 @@ server.listen().then(({ url }) => {
 ```
 
 
-## 7. 编写 ```query reslovers```
+### 7. 编写 ```query reslovers```
 
 1. 方法签名描述
 
@@ -257,7 +260,7 @@ module.exports = {
 ```
 
 
-## 8. 给 ```server``` 添加 ```resolvers```
+### 8. 给 ```server``` 添加 ```resolvers```
 
 ```javascript
 
@@ -286,6 +289,34 @@ server.listen().then(({ url }) => {
 ```
 
 
-## 9. 执行 ```npm start```，即可通过浏览器打开 ```http://localhost:4000```来访问 ```GraphQL Playground```
+### 9. 执行 ```npm start```，即可通过浏览器打开 ```http://localhost:4000```来访问 ```GraphQL Playground```
 
 ![Mou icon](../Images/28.png)
+
+
+未完待续...
+
+
+## 二、API总结
+
+### 2.1 ApolloServer
+
+1. 初始化参数：
+
+```
+typeDefs： 定义了scheme，类似于类型和方法声明
+resolvers：定义了实现，一般typeDefs定义的方法，需要在resolvers中实现
+dataSources：用于初始化数据源，比如调用各个系统的API，操作数据库等等
+playground：是否开启graphQL的playground
+introspection：是否开启自省功能，如果关闭的话，那么在playground中就无法查看scheme，但是playground仍然可用
+```
+
+2. 方法
+
+```
+listen：开启server，并可以设置监听的端口号
+```
+
+
+
+
