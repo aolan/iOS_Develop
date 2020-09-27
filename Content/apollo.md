@@ -308,7 +308,13 @@ typeDefs： 定义了scheme，类似于类型和方法声明
 resolvers：定义了实现，一般typeDefs定义的方法，需要在resolvers中实现
 dataSources：用于初始化数据源，比如调用各个系统的API，操作数据库等等
 playground：是否开启graphQL的playground
-introspection：是否开启自省功能，如果关闭的话，那么在playground中就无法查看scheme，但是playground仍然可用
+introspection：是否开启模式自省，如果关闭的话，那么在playground中就无法查看scheme，但是playground仍然可用
+context: 当前请求的上下文
+mocks：是否开启模拟数据
+schema：它将覆盖typeDefs、resolvers
+debug：是否开启debug模式
+cors：是否支持跨域请求
+
 ```
 
 2. 方法
