@@ -286,6 +286,6 @@ server.listen().then(({ url }) => {
 ```
 
 
-## 9. 执行 ```npm start```，即可通过浏览器打开 ```http://locahost:4000```来访问 ```GraphQL Playground```
+## 9. 执行 ```npm start```，即可通过浏览器打开 ```http://localhost:4000```来访问 ```GraphQL Playground```
 
 ![Mou icon](../Images/28.png)
