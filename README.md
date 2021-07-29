@@ -47,4 +47,5 @@
   * [ES6学习笔记](Content/es6.md)
   * [ES6学习大纲](Content/es6_outline.md)
   * [Apollo graphQL](Content/apollo.md)
+  * [快乐使用github](Content/gitConfig.md)
 
