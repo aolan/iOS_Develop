@@ -7,7 +7,7 @@
 
 * 可查看git全局配置 `git config -l --global`
 
-* 设置git代理 `git config --global http.https://github.com.proxy socks://127.0.0.1:1069`
+* 使用代理访问github，公司gitlab并不影响 `git config --global http.https://github.com.proxy socks://127.0.0.1:1069`
 
 * 设置sslVerify，必须要设置true  `git config --global http.sslVerify true`
 
