@@ -43,3 +43,32 @@ use db_name_test;
 ...
 
 ```
+
+# nestjs
+
+## 安装并初始化工程
+
+```shell
+
+// 安装nestjs，确保node版本大于8.9.0
+npm -i -g @nestjs/cli@6.0.0
+
+// 创建nest项目
+nest new test-nestjs
+
+```
+
+## 项目结构介绍
+
+src
+├── app.controller.spec.ts     
+├── app.controller.ts         带有单个路由的基本控制器示例：控制器负责处理传入的请求和向客户端返回响应
+├── app.module.ts             应用程序的根模块
+├── app.service.ts
+└── main.ts                   应用程序入口文件。它使用 NestFactory 用来创建 Nest 应用实例
+
+## 创建自己的controller
+
+```shell
+nest g controller cats
+```
