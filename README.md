@@ -50,4 +50,5 @@
   * [快乐使用github](Content/gitConfig.md)
   * [mysql安装及使用](Content/mysql.md)
   * [前端必备知识](Content/web.md)
+  * [typescript项目创建与cli创建](Content/cli.md)
 
