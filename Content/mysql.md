@@ -7,7 +7,7 @@
 
 ```shell
 
-vim ./.bash_profile
+vim .bash_profile
 
 ```
 在.bash_profile文件中增加配置
@@ -60,6 +60,9 @@ nest new test-nestjs
 
 ## 项目结构介绍
 
+![image](https://user-images.githubusercontent.com/6744261/153186691-c26c91a0-2f0b-4153-a164-5d43092ebb74.png)
+
+
 src
 ├── app.controller.spec.ts     
 ├── app.controller.ts         带有单个路由的基本控制器示例：控制器负责处理传入的请求和向客户端返回响应
@@ -72,3 +75,5 @@ src
 ```shell
 nest g controller cats
 ```
+
+参考链接：https://jishuin.proginn.com/p/763bfbd6c4dd
