@@ -10,18 +10,18 @@ lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> mtu 16384
 	nd6 options=201<PERFORMNUD,DAD>
 ```
   
-## 软件网络接口  
+## 软件网络接口，通用 IP-in-IP隧道(RFC2893)
 ```
 gif0: flags=8010<POINTOPOINT,MULTICAST> mtu 1280
 
 ```
 
-## ipv6 -> ipv4 通道接口
+## 6to4连接(RFC3056)，ipv6->ipv4通道接口
 ```
 stf0: flags=0<> mtu 1280
 ```
 
-## 以太网0：有线网卡
+## 以太网：有线网卡和无线网卡，还有蓝牙等
 ```
 en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
 	options=400<CHANNEL_IO>
@@ -31,19 +31,32 @@ en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
 	nd6 options=201<PERFORMNUD,DAD>
 	media: autoselect
 	status: active
-```
-  
-```
+	
 en2: flags=8963<UP,BROADCAST,SMART,RUNNING,PROMISC,SIMPLEX,MULTICAST> mtu 1500
 	options=460<TSO4,TSO6,CHANNEL_IO>
 	ether 82:13:01:99:c1:c1
 	media: autoselect <full-duplex>
 	status: inactive
+	
 en1: flags=8963<UP,BROADCAST,SMART,RUNNING,PROMISC,SIMPLEX,MULTICAST> mtu 1500
 	options=460<TSO4,TSO6,CHANNEL_IO>
 	ether 82:13:01:99:c1:c0
 	media: autoselect <full-duplex>
 	status: inactive
+	
+en3: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
+	options=400<CHANNEL_IO>
+	ether 2a:5a:eb:16:a4:e6
+	inet6 fe80::c89:b168:fd34:430f%en3 prefixlen 64 secured scopeid 0xe
+	inet 169.254.44.179 netmask 0xffff0000 broadcast 169.254.255.255
+	nd6 options=201<PERFORMNUD,DAD>
+	media: autoselect (100baseTX <full-duplex>)
+	status: active
+```
+  
+
+## 第二层网桥
+```
 bridge0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
 	options=63<RXCSUM,TXCSUM,TSO4,TSO6>
 	ether 82:13:01:99:c1:c0
@@ -59,8 +72,8 @@ bridge0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
 	nd6 options=201<PERFORMNUD,DAD>
 	media: <unknown type>
 	status: inactive
-  
 ```
+  
   
 ## Point-to-Point 协议
 ```
@@ -90,6 +103,10 @@ llw0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
 	nd6 options=201<PERFORMNUD,DAD>
 	media: autoselect
 	status: active
+```
+  
+# 虚拟设备
+```
 utun0: flags=8051<UP,POINTOPOINT,RUNNING,MULTICAST> mtu 1380
 	inet6 fe80::44a9:ccff:4f1b:21ed%utun0 prefixlen 64 scopeid 0xb
 	nd6 options=201<PERFORMNUD,DAD>
@@ -101,13 +118,3 @@ utun2: flags=8051<UP,POINTOPOINT,RUNNING,MULTICAST> mtu 1000
 	nd6 options=201<PERFORMNUD,DAD>
 ```
 
-```
-en3: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
-	options=400<CHANNEL_IO>
-	ether 2a:5a:eb:16:a4:e6
-	inet6 fe80::c89:b168:fd34:430f%en3 prefixlen 64 secured scopeid 0xe
-	inet 169.254.44.179 netmask 0xffff0000 broadcast 169.254.255.255
-	nd6 options=201<PERFORMNUD,DAD>
-	media: autoselect (100baseTX <full-duplex>)
-	status: active
-```
