@@ -52,7 +52,7 @@
 结合上面的表格，我们来分析这些数据的关系。
 
 * 1pt长度
-> ![](https://latex.codecogs.com/gif.image?\dpi{110}1pt&space;=&space;(1\div72)Inch)
+> ![](https://latex.codecogs.com/svg.image?1pt=(1\div72)Inch)
 
 * 屏幕尺寸，其中sInch为屏幕尺寸，wInch和hInch分别是屏幕的真实高度
 > ![](https://latex.codecogs.com/gif.image?\dpi{110}sInch=\sqrt{wInch^{2}&plus;hInch^{2}})
