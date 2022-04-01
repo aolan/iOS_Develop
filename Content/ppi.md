@@ -47,20 +47,23 @@
 | iPhone13 Pro Max |   6.7    |    428x926    |   @3x  |   1284x2778 |  458  |             | 2000000:1 |
 
 
+![图片](https://user-images.githubusercontent.com/6744261/161215318-08c0a4ef-932f-476c-9e5e-504856bd1394.png)
+
+
 ## 数学公式
 
 结合上面的表格，我们来分析这些数据的关系。
 
 * 1pt长度
-> ![](https://latex.codecogs.com/svg.image?1pt=(1\div72)Inch)
+> ![](https://latex.codecogs.com/svg.image?1pt=1\div72(Inch)))
 
 * 屏幕尺寸，其中sInch为屏幕尺寸，wInch和hInch分别是屏幕的真实高度
-> ![](https://latex.codecogs.com/gif.image?\dpi{110}sInch=\sqrt{wInch^{2}&plus;hInch^{2}})
+> ![](https://latex.codecogs.com/svg.image?sInch=\sqrt{wInch^{2}&plus;hInch^{2}})
 
 * PPI（其中wpx和hpx为分辨率的宽高，sInch是屏幕尺寸）
 
 以iPhone3GS为例：sqrt(320^2+480^2)/3.5 = 164.825201164068082，约等于官方提供的163
-> ![](https://latex.codecogs.com/gif.image?\dpi{110}ppi=\sqrt{wpx^2&plus;hpx^2}\div{sInch})
+> ![](https://latex.codecogs.com/svg.image?ppi=\sqrt{wpx^2&plus;hpx^2}\div{sInch})
 
 * 实际场景
 
@@ -77,6 +80,6 @@ iPhone多数机型，pt * render = px，但是在 iPhone(n) Plus机型中，则�
 > 
 > 高：736 * 3 = 2208
 
-从上面的计算我们得到，iPhone6 Plus的分辨率应该是 1242x2208 才对，但实际上iPhone6 Plus的实际分辨率仅仅只有 1080x1920（我们常说的1080P）。这应该是苹果公司基于成本的考虑，没有使用 1242x2208 分辨率的屏，因为这样的话，对屏幕的PPI要求将高达 461，我们看到通代的 iPhoneX 的 PPI 也只有 458。
+1、从上面的计算我们得到，iPhone6 Plus的分辨率应该是 1242x2208 才对，但实际上iPhone6 Plus的实际分辨率仅仅只有 1080x1920（我们常说的1080P）。这应该是苹果公司基于成本的考虑，没有使用 1242x2208 分辨率的屏，因为这样的话，对屏幕的PPI要求将高达 461，我们看到通代的 iPhoneX 的 PPI 也只有 458。
 
-所以苹果做了这样一个处理，为了让开发容易上手，iPhone6 Plus仍然按照3倍设计图片，屏幕在显示之前，先对高像素的图片进行缩放，将 1242x2208 抽样缩放到 1080x1920，然后渲染到 1080x1920 的屏幕上。由于多了这一步的操作，iPhone6 Plus 提高了GPU的压力，也增加了功耗，再配上iOS8系统，时常会出现卡顿。
+2、所以苹果做了这样一个处理，为了让开发容易上手，iPhone6 Plus仍然按照3倍设计图片，屏幕在显示之前，先对高像素的图片进行缩放，将 1242x2208 抽样缩放到 1080x1920，然后渲染到 1080x1920 的屏幕上。由于多了这一步的操作，iPhone6 Plus 提高了GPU的压力，也增加了功耗，再配上iOS8系统，时常会出现卡顿。
