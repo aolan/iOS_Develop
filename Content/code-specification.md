@@ -2,7 +2,7 @@
 
 我们借助第三方的检查工具，在git commit之前对代码进行检查和格式化。这里比较推荐 https://github.com/square/spacecommander
 
-## 本地环境搭建
+## 一、本地环境搭建
 
 * 在用户根目录 `/Users/{your name}` 创建隐藏文件路径，执行 `mkdir .code-specification`
 
@@ -20,6 +20,12 @@
 
 * 然后执行 `source .bash_profie`，让快捷配置生效。
 
+* 如果终端使用的是 `oh-my-zsh` 或者 `oh-my-zsh`，需要在 `vi .zshrc` 文件末尾增加 `source .bash_profile`，重启终端，刚刚设置的快捷方式就可以使用了。
+
+
+## 二、使用
+
+* 进入到 iOS 工程根目录，执行 `fset`，工程下会新增 `.clang-format` 文件；
 
 
 
