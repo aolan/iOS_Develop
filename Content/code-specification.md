@@ -37,3 +37,5 @@
 https://www.jianshu.com/p/03ea9c01ba26
 
 https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html
+
+https://github.com/nytimes/objective-c-style-guide/blob/master/README_zh-Hans.md
