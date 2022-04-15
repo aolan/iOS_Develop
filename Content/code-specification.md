@@ -1,8 +1,12 @@
-# 检查工具
+# 一、代码命名规范
+
+可以参照[Cocoa](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html)的命名规范。
+
+# 二、检查工具
 
 我们借助第三方的检查工具，在git commit之前对代码进行检查和格式化。这里比较推荐 [spacecommander](https://github.com/square/spacecommander) 。
 
-## 一、本地环境搭建
+## 1、本地环境搭建
 
 * 在用户根目录 `/Users/{your name}` 创建隐藏文件路径，执行 `mkdir .code-specification`。
 
@@ -23,7 +27,7 @@ alias fa='/Users/{your name}/.code-specification/spacecommander/format-objc-file
 * 如果终端使用的是 `zsh` 或者 `oh-my-zsh`，需要在 `vi .zshrc` 文件末尾增加 `source .bash_profile`，重启终端，刚刚设置的快捷方式就可以使用了。
 
 
-## 二、使用GitHook来检查代码格式
+## 2、使用GitHook来检查代码格式
 
 * 进入到 iOS 工程根目录，执行 `fset`，工程下会新增 `.clang-format` 文件的链接，该文件配置了代码格式；除此之外，`git hooks`新增了 `pre-commit`文件，在提交之前会进行代码格式检查。
 
@@ -32,7 +36,11 @@ alias fa='/Users/{your name}/.code-specification/spacecommander/format-objc-file
 * 也可以通过 `fo {pathToFile}` 指定某个文件。
 
 
-## 三、使用xcode插件来format代码
+# 三、格式化工具
+
+我们可以安装xcode插件来辅助我们进行代码格式化。
+
+## 1、安装
 
 * 下载 [XcodeClangFormat.1.3.0-beta.1.zip](https://github.com/aolan/iOS_Develop/files/8494066/XcodeClangFormat.1.3.0-beta.1.zip)。
 
@@ -52,7 +60,7 @@ alias fa='/Users/{your name}/.code-specification/spacecommander/format-objc-file
 
 * 设置完毕，就可以愉快的使用起来了。
 
-## 四、Clang-format代码格式配置
+## 二、Clang-format代码格式配置
 
 1、有一个比较好的代码规范：[nytimes](https://github.com/nytimes/objective-c-style-guide/blob/master/README_zh-Hans.md#%E7%82%B9%E8%AF%AD%E6%B3%95)
 
@@ -199,7 +207,7 @@ BraceWrapping:
 // clang-format on
 ```
 
-# 参考文档：
+# 四、参考文档：
 
 https://www.jianshu.com/p/03ea9c01ba26
 
