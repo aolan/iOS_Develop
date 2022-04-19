@@ -31,7 +31,7 @@ alias fa='/Users/{your name}/.code-specification/spacecommander/format-objc-file
 
 * 进入到 iOS 工程根目录，执行 `fset`，工程下会新增 `.clang-format` 文件的链接，该文件配置了代码格式；除此之外，`git hooks`新增了 `pre-commit`文件，在提交之前会进行代码格式检查。
 
-* 在工程根目录下可以执行 `fa`，来对整个工程进行格式化，不过这个要慎用，个能会对很多文件进行格式化，对代码的影响较大。当然这个命令是默认忽略 `Pods`和`Carthage`路径中的代码的。如果你还有其他路径需要忽略，可以通过在您的工程目录下创建文件`.formatting-directory-ignore`，填入指定的路径来进行忽略。
+* 在工程根目录下可以执行 `fa`，来对整个工程进行格式化，不过这个要慎用，可能会对很多文件进行格式化，对代码的影响较大。当然这个命令是默认忽略 `Pods`和`Carthage`路径中的代码的。如果你还有其他路径需要忽略，可以通过在您的工程目录下创建文件`.formatting-directory-ignore`，填入指定的路径来进行忽略。
 
 * 也可以通过 `fo {pathToFile}` 指定某个文件。
 
