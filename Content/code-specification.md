@@ -64,7 +64,7 @@ alias fa='/Users/{your name}/.code-specification/spacecommander/format-objc-file
 
 1、有一个比较好的代码规范：[nytimes](https://github.com/nytimes/objective-c-style-guide/blob/master/README_zh-Hans.md#%E7%82%B9%E8%AF%AD%E6%B3%95)
 
-2、我自行调试出来的格式，并对格式加了注释；可以用下面的配置替换 `/Users/{your name}/.code-specification/spacecommander/.clang-format`即可：
+2、我自行调试出来的格式，并对格式加了注释；可以用下面的配置替换 `/Users/{your name}/.code-specification/spacecommander/.clang-format`即可，注意`.clang-format`底部要有一个换行，否则无法使用。
 ```
 ---
 # 参考：https://clang.llvm.org/docs/ClangFormatStyleOptions.html
