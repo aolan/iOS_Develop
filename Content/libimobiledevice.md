@@ -111,5 +111,13 @@ idevicesetlocation -u 94170a62c9c8657d989ba21a53c2e78c9b0f405d reset
 idevicesetlocation -u 94170a62c9c8657d989ba21a53c2e78c9b0f405d -- 39.932199 116.411168
 ```
 
+## 12. 导出iOS系统中的crash日志
+
+```
+idevicecrashreport -k ./crash
+```
+
+
+
 参考文档：
 https://cloud.tencent.com/developer/article/1521371
