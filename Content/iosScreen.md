@@ -133,14 +133,15 @@ iPhone多数机型，pt * render = px，但是在 iPhone(n) Plus机型中，则�
 
 |    手机                                        |  屏幕尺寸 | 逻辑分辨率(pt)  | Render |  分辨率(px)  |  PPI  |  系统版本  |
 |-----------------------------------------------|----------|---------------|--------|-------------|-------|-----------|
+| iPhone6s                                      |   4.7    |    375x667    |   @2x  |   750x1334  |  326  | iOS10     |
 | iPhoneX、iPhoneXs、iPhone11 Pro                |   5.8    |    375x812    |   @3x  |   1125x2436 |  458  | iOS11     |
 | iPhoneXr、iPhone11                            |   6.1    |    414x896    |   @2x  |   828x1792  |  326  | iOS12     | 
 | iPhoneXs Max、iPhone11 Pro Max                |   6.5    |    736x1344   |   @3x  |   1242x2688 |  458  | iOS13     |
 | iPhone12、iPhone12 Pro、iPhone13、iPhone13 Pro |   6.1    |    390x844    |   @3x  |   1170x2532 |  460  | iOS14     |
 | iPhone12 Mini、iPhone13 Mini                  |   5.4    |    360x780    |   @3x  |   1080x2340 |  476  | iOS14     |
 | iPhone12 Pro Max、iPhone13 Pro Max            |   6.7    |    428x926    |   @3x  |   1284x2778 |  458  | iOS15     |
-| iPhone6                                       |   4.7    |    375x667    |   @2x  |   750x1334  |  326  | iOS12     |
-| iPhone7Plus                                   |   5.5    |    414x736    |   @3x  |   1080x1920 |  401  | iOS15     |
+| iPhone6（开发手上现有）                          |   4.7    |    375x667    |   @2x  |   750x1334  |  326  | iOS12     |
+| iPhone7Plus（开发手上现有）                      |   5.5    |    414x736    |   @3x  |   1080x1920 |  401  | iOS15     |
 
 
 
