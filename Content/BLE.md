@@ -1024,4 +1024,7 @@ typedef void(^QXPeripheralBluetoothReceiveDataBlock)(QXPeripheralManager *manage
  https://zhuanlan.zhihu.com/p/30923196
 
  https://www.jianshu.com/p/6de5398d6332
+ 
+ https://juejin.cn/post/6844903828710490120
+ https://juejin.cn/post/6844903828714684424
 
