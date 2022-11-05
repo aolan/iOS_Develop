@@ -1,4 +1,4 @@
-# try-catch
+# Swift(do-try-catch)
 
 ## try!
 
@@ -11,7 +11,7 @@ try! FileManager.default.removeItem(path)
 
 ```
 
-即使用 do-catch 包裹，也是会crash的，如
+即使用 do-try-catch 包裹，也是会crash的，如
 
 ```swift
 
@@ -36,7 +36,7 @@ try? FileManager.default.removeItem(path)
 
 ```
 
-如果想根据异常来判断后续的代码流程，就要用到 do-catch了，例如：
+如果想根据异常来判断后续的代码流程，就要用到 do-try-catch了，例如：
 
 ```swift
 
@@ -57,11 +57,11 @@ guard let json = try? JSONSerialization.jsonObject(with: data!, options: []) els
 print("---------------\(json)")
 
 ```
-假设json字符串格式不正确，这里我们可以通过 try? 后面方法的返回值来判断后续代码走向。
+假设 json 字符串格式不正确，这里我们可以通过 try? 后面方法的返回值来判断后续代码走向。
 
 ## 注意事项
 
-try-catch并不是万能的，比如数组下标越界，这种是不会抛异常的，即使用 do-try-catch 包裹，也仍然会崩溃。
+do-try-catch 并不是万能的，比如数组下标越界，这种是不会抛异常的，即使用 do-catch 包裹，也仍然会崩溃。
 
 ```
 let list = [1, 2]
