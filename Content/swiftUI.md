@@ -1,4 +1,16 @@
 
 ## 关键知识点
 
-### @State、@Published 和 @Binding
+### 属性包装器
+
+@State
+
+@Binding：
+
+
+
+@Published 和 
+
+@State： 
+
+参考： https://www.jianshu.com/p/1939cdd483fb
