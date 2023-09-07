@@ -87,7 +87,7 @@ let _ = Just(5).map { value -> String in
 操作符是 Apple 参考文档中发布者下包含的一些预构建函数的便捷名称。 操作符用来组合成管道。 许多操作符会接受开发人员的一个或多个闭包，以定义业务逻辑，同时保持并持有发布者/订阅者的生命周期。
 一些操作符支持合并来自不同管道的输出、更改数据的时序或过滤所提供的数据。 操作符可能还会对操作类型有限制， 还可用于定义错误处理和重试逻辑、缓冲和预先载入以及支持调试。
 
-## 2.1 Mappping elements
+## 2.1 Mappping elements 映射元素
 
 ### 2.1.1 scan
 ### 2.1.2 tryScan
@@ -95,6 +95,106 @@ let _ = Just(5).map { value -> String in
 ### 2.1.4 map
 ### 2.1.5 tryMap
 ### 2.1.6 flatMap
+
+## 2.2 Filtering elements 筛选元素
+
+### 2.2.1 compactMap
+### 2.2.2 tryCompactMap
+### 2.2.3 replaceEmpty
+### 2.2.4 filter
+### 2.2.5 tryFilter
+### 2.2.6 replaceError
+### 2.2.7 removeDuplicates
+### 2.2.8 tryRemoveDuplicates
+
+## 2.3 Reducing elements 还原元素
+### 2.3.1 collect
+### 2.3.2 reduce
+### 2.3.3 tryReduce
+### 2.3.4 ignoreOutput
+
+## 2.4 Mathematic operations on elements 元素的数学运算
+### 2.4.1 max
+### 2.4.2 tryMax
+### 2.4.3 count
+### 2.4.4 min
+### 2.4.5 tryMin
+
+## 2.5 Applying matching criterial to elements 条件匹配应用于元素
+### 2.5.1 allSatisfy
+### 2.5.2 tryAllSatisfy
+### 2.5.3 contains
+### 2.5.4 containsWhere
+### 2.5.5 tryContainsWhere
+
+## 2.6 Applying sequence operations to elements 对元素进行序列操作
+### 2.6.1 firstWhere
+### 2.6.2 tryFirstWhere
+### 2.6.3 first
+### 2.6.4 lastWhere
+### 2.6.5 tryLastWhere
+### 2.6.6 last
+### 2.6.7 dropWhile 
+### 2.6.8 tryDropWhile 
+### 2.6.9 dropUntilOutput
+### 2.6.10 prepend 
+### 2.6.11 drop
+### 2.6.12 prefixUntilOutput
+### 2.6.13 prefixWhile
+### 2.6.14 tryPrefixWhile
+### 2.6.15 output
+
+## 2.7 Combining elements from multiple publishers 组合多个发布者元素
+### 2.7.1 combineLatest
+### 2.7.2 merge
+### 2.7.3 zip
+
+## 2.8 Handling errors 处理错误
+### 2.8.1 catch
+### 2.8.2 tryCatch
+### 2.8.3 assertNoFailure
+### 2.8.4 retry
+### 2.8.5 mapError
+
+## 2.9 Adapting publisher types 调整发布者类型
+### 2.9.1 switchToLatest
+### 2.9.2 eraseToAnyPublisher
+
+## 2.10 Controlling timing 控制时序
+### 2.10.1 debounce
+### 2.10.2 delay
+### 2.10.3 measureInterval
+### 2.10.4 throttle
+### 2.10.5 timeout
+
+## 2.11 Encoding and decoding 编解码
+### 2.11.1 encode
+### 2.11.2 decode
+
+## 2.12 Working with multiple subscribers 与多个订阅者合作
+### 2.12.1 multicase
+
+## 2.13 Debugging
+### 2.13.1 breakpoint
+### 2.13.2 handleEvents
+### 2.13.3 print
+
+
+# 3. Subjects 特殊的发布者
+
+* Subjects 是一种遵循 Subject 协议的特殊的发布者。 这个协议要求 subjects 有一个 .send(_:) 方法，来允许开发者发送特定的值给订阅者或管道。
+* Subjects 可以通过调用 .send(_:) 方法来将值“注入”到流中， 这对于将现有的命令式的代码与 Combine 集成非常有用。
+* 一个 subject 还可以向多个订阅者广播消息。 如果多个订阅者连接到一个 subject，它将在调用 send(_:) 时向多个订阅者发送值。 一个 subject 还经常用于连接或串联多个管道，特别是同时给多个管道发送值时。
+
+
+
+
+
+
+
+
+
+
 
 
 
