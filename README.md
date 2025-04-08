@@ -69,5 +69,6 @@
   * [搞定SPM](Content/spm.md)
   * [杜比视频格式转化性能](Content/视频格式转换.md)
   * [单次定位和后台持续定位](Content/location.md)
+  * [iPhone相关技术方案](Content/technical_solutions.md)
 
 
