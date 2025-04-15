@@ -26,8 +26,10 @@
 ## 4. iPhone手机是否可以被远程控制？
 
 暂时没找到可以控制的方法。
+
 1、iPhone可以利用 ReplyKit 进行直播投屏；
-2、但被投屏的设备控制 iPhone，尚未找到解决方案。
+
+2、但被投屏的设备控制 iPhone，尚未找到解决方案。(待实践：https://www.bilibili.com/video/BV1hU4y1v7aY/?spm_id_from=333.337.search-card.all.click&vd_source=96b68abf2139cda0ff8006143e8f76cc)
 
 
 
