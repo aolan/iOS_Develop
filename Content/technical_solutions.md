@@ -29,7 +29,12 @@
 
 1、iPhone可以利用 ReplyKit 进行直播投屏；
 
-2、但被投屏的设备控制 iPhone，尚未找到解决方案。(待实践：https://www.bilibili.com/video/BV1hU4y1v7aY/?spm_id_from=333.337.search-card.all.click&vd_source=96b68abf2139cda0ff8006143e8f76cc)
+2、但被投屏的设备控制 iPhone，尚未找到解决方案。
+
+待实践：
+https://www.bilibili.com/video/BV1hU4y1v7aY/?spm_id_from=333.337.search-card.all.click&vd_source=96b68abf2139cda0ff8006143e8f76cc（苹果系统自带的远程控制）
+https://www.bilibili.com/video/BV1Xp4y1P7j1/?spm_id_from=333.337.search-card.all.click&vd_source=96b68abf2139cda0ff8006143e8f76cc（看上去像是用电脑模拟鼠标）
+
 
 
 
