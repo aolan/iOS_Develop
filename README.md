@@ -71,5 +71,6 @@
   * [单次定位和后台持续定位](Content/location.md)
   * [iPhone相关技术方案](Content/technical_solutions.md)
   * [AI大模型调研](Content/model.md)
+  * [Apple Intents](Content/intents.md)
 
 
