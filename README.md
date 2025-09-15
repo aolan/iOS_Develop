@@ -72,5 +72,6 @@
   * [iPhone相关技术方案](Content/technical_solutions.md)
   * [AI大模型调研](Content/model.md)
   * [Apple Intents](Content/intents.md)
+  * [Macos 外接硬盘](Content/externalStorage.md)
 
 
